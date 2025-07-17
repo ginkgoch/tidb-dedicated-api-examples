@@ -1,0 +1,111 @@
+### Get private link service for a TiDB Node Group
+# @name get_private_link_service
+GET {{BASE_URL}}/clusters/{{CLUSTER_ID}}/tidbNodeGroups/{{TIDB_NODE_GROUP_ID}}/privateLinkService
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### List private endpoint connections for a specific cluster and TiDB Node Group
+# @name list_private_endpoint_connections
+GET {{BASE_URL}}/clusters/{{CLUSTER_ID}}/tidbNodeGroups/{{TIDB_NODE_GROUP_ID}}/privateEndpointConnections
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### List private endpoint connections across all clusters and TiDB groups
+GET {{BASE_URL}}/clusters/-/tidbNodeGroups/-/privateEndpointConnections
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### List private endpoint connections for a specific project
+GET {{BASE_URL}}/clusters/-/tidbNodeGroups/-/privateEndpointConnections?projectId={{PROJECT_ID}}
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### List private endpoint connections by cloud provider
+GET {{BASE_URL}}/clusters/{{CLUSTER_ID}}/tidbNodeGroups/{{TIDB_NODE_GROUP_ID}}/privateEndpointConnections?cloudProvider=aws
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### List private endpoint connections with pagination
+GET {{BASE_URL}}/clusters/{{CLUSTER_ID}}/tidbNodeGroups/{{TIDB_NODE_GROUP_ID}}/privateEndpointConnections?pageSize=5&skip=0
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### Create a private endpoint connection (AWS)
+POST {{BASE_URL}}/clusters/{{CLUSTER_ID}}/tidbNodeGroups/{{TIDB_NODE_GROUP_ID}}/privateEndpointConnections
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "tidbNodeGroupId": "{{TIDB_NODE_GROUP_ID}}",
+  "endpointId": "vpce-1234567890abcdef0"
+}
+
+
+### Create a private endpoint connection (GCP)
+POST {{BASE_URL}}/clusters/{{CLUSTER_ID}}/tidbNodeGroups/{{TIDB_NODE_GROUP_ID}}/privateEndpointConnections
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "tidbNodeGroupId": "{{TIDB_NODE_GROUP_ID}}",
+  "endpointId": "projects/my-project/regions/us-central1/serviceAttachments/my-service-attachment",
+  "accountId": "my-project-id"
+}
+
+
+### Create a private endpoint connection (Azure)
+POST {{BASE_URL}}/clusters/{{CLUSTER_ID}}/tidbNodeGroups/{{TIDB_NODE_GROUP_ID}}/privateEndpointConnections
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "tidbNodeGroupId": "{{TIDB_NODE_GROUP_ID}}",
+  "endpointId": "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/my-rg/providers/Microsoft.Network/privateEndpoints/my-endpoint",
+  "privateIpAddress": "10.0.1.100"
+}
+
+
+### Create a private endpoint connection with validation only (Azure)
+POST {{BASE_URL}}/clusters/{{CLUSTER_ID}}/tidbNodeGroups/{{TIDB_NODE_GROUP_ID}}/privateEndpointConnections?validateOnly=true
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "tidbNodeGroupId": "{{TIDB_NODE_GROUP_ID}}",
+  "endpointId": "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/my-rg/providers/Microsoft.Network/privateEndpoints/my-endpoint",
+  "privateIpAddress": "10.0.1.100"
+}
+
+
+### Get a specific private endpoint connection
+# Get the first private endpoint connection ID from the list response
+@first_connection_id = {{list_private_endpoint_connections.response.body.privateEndpointConnections[0].privateEndpointConnectionId}}
+
+GET {{BASE_URL}}/clusters/{{CLUSTER_ID}}/tidbNodeGroups/{{TIDB_NODE_GROUP_ID}}/privateEndpointConnections/{{first_connection_id}}
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### Delete a private endpoint connection
+DELETE {{BASE_URL}}/clusters/{{CLUSTER_ID}}/tidbNodeGroups/{{TIDB_NODE_GROUP_ID}}/privateEndpointConnections/{{first_connection_id}}
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### Variables for testing
+@BASE_URL = https://dedicated.tidbapi.com/v1beta1
+@PUBLIC_KEY = YOUR_PUBLIC_KEY
+@PRIVATE_KEY = YOUR_PRIVATE_KEY
+@CLUSTER_ID = YOUR_CLUSTER_ID
+@TIDB_NODE_GROUP_ID = YOUR_TIDB_NODE_GROUP_ID
+@PROJECT_ID = YOUR_PROJECT_ID

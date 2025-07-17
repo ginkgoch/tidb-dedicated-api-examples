@@ -1,0 +1,164 @@
+### List all clusters
+# @name list_all_clusters
+GET {{BASE_URL}}/clusters
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### List clusters with pagination
+GET {{BASE_URL}}/clusters?pageSize=5&skip=0
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### List clusters by project ID
+GET {{BASE_URL}}/clusters?projectId={{DEFAULT_PROJECT_ID}}
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### List clusters by region
+GET {{BASE_URL}}/clusters?regionIds=aws-us-west-2&regionIds=aws-us-east-1
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### List clusters by state
+GET {{BASE_URL}}/clusters?clusterStates=ACTIVE&clusterStates=CREATING
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### Get a cluster by ID
+# Get the first cluster ID from the list response
+@default_cluster_id = 10966240870730486944
+
+GET {{BASE_URL}}/clusters/{{default_cluster_id}}
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### Create a new cluster
+POST {{BASE_URL}}/clusters
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "cloudProvider":"aws",
+  "displayName":"Cluster01-API",
+  "port":4000,
+  "regionId":"aws-us-west-2",
+  "tidbNodeSetting":{
+    "nodeSpecKey":"2C8G",
+    "tidbNodeGroups":[
+      {
+        "nodeCount":1
+      }
+    ]
+  },
+  "tikvNodeSetting":{
+    "nodeCount":3,
+    "nodeSpecKey":"2C8G",
+    "storageSizeGi":200,
+    "storageType":"Standard"
+  },
+  "labels":{
+    "tidb.cloud/project":"{{DEFAULT_PROJECT_ID}}"
+  }
+}
+
+
+### Create cluster with validation only
+POST {{BASE_URL}}/clusters?validateOnly=true
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "cloudProvider":"aws",
+  "displayName":"Cluster02-API",
+  "port":4000,
+  "regionId":"aws-us-west-2",
+  "tidbNodeSetting":{
+    "nodeSpecKey":"2C8G",
+    "tidbNodeGroups":[
+      {
+        "nodeCount":1
+      }
+    ]
+  },
+  "tikvNodeSetting":{
+    "nodeCount":3,
+    "nodeSpecKey":"2C8G",
+    "storageSizeGi":200,
+    "storageType":"Standard"
+  },
+  "labels":{
+    "tidb.cloud/project":"{{DEFAULT_PROJECT_ID}}"
+  }
+}
+
+
+### Update a cluster
+PATCH {{BASE_URL}}/clusters/{{default_cluster_id}}
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "clusterId": "{{default_cluster_id}}",
+  "displayName": "updated-cluster-name",
+  "annotations": {
+    "key1": "value1"
+  }
+}
+
+
+### Pause a cluster
+POST {{BASE_URL}}/clusters/{{default_cluster_id}}:pauseCluster
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Content-Type: application/json
+Accept: application/json
+
+{}
+
+
+### Resume a cluster
+POST {{BASE_URL}}/clusters/{{default_cluster_id}}:resumeCluster
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Content-Type: application/json
+Accept: application/json
+
+{}
+
+
+### Reset root password
+POST {{BASE_URL}}/clusters/{{default_cluster_id}}:resetRootPassword
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "rootPassword": "Newpassword123!"
+}
+
+
+### Delete a cluster
+@cluster_id_to_delete = 10132558728161212631
+
+DELETE {{BASE_URL}}/clusters/{{cluster_id_to_delete}}
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### List cluster node instances
+GET {{BASE_URL}}/clusters/{{default_cluster_id}}/nodeInstances
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### Show clusters node quota
+GET {{BASE_URL}}/clusters:showNodeQuota
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
