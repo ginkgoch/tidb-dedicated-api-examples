@@ -6,6 +6,8 @@ Accept: application/json
 
 
 ### Get a region by ID
+
+# e.g. 'aws-us-west-2'
 @first_region_id = {{list_all_regions.response.body.regions[0].regionId}}
 
 GET {{BASE_URL}}/regions/{{first_region_id}}
