@@ -1,0 +1,34 @@
+### List all regions
+# @name list_all_regions
+GET {{BASE_URL}}/regions
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### Get a region by ID
+@first_region_id = {{list_all_regions.response.body.regions[0].regionId}}
+
+GET {{BASE_URL}}/regions/{{first_region_id}}
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### Show cloud providers
+GET {{BASE_URL}}/regions:showCloudProviders
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### List node specs
+GET {{BASE_URL}}/regions/{{first_region_id}}/nodeSpecs
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
+
+
+### Get a node spec by ID
+@COMPONENT_TYPE = TIKV
+@NODE_SPEC = 8C32G
+
+GET {{BASE_URL}}/regions/{{first_region_id}}/componentTypes/{{COMPONENT_TYPE}}/nodeSpecs/{{NODE_SPEC}}
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json

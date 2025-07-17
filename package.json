@@ -1,0 +1,12 @@
+{
+  "name": "tidb-dedicated-api-examples",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "repository": "git@github.com:ginkgoch/tidb-dedicated-api-examples.git",
+  "author": "Howard Chen <ginkgoch@outlook.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.10.0"
+  }
+}
