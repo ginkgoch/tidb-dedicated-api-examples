@@ -1,0 +1,7 @@
+@default_cluster_id = 10457314758290942961
+
+
+### List imports
+GET {{BASE_URL}}/clusters/{{default_cluster_id}}/imports
+Authorization: Digest {{PUBLIC_KEY}} {{PRIVATE_KEY}}
+Accept: application/json
